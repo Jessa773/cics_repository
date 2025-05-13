@@ -1,0 +1,32 @@
+# Enable URL rewriting
+RewriteEngine On
+
+# Example .htaccess rule to allow direct access to files
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^ index.php [L]
+
+# Base directory of your installation
+# Modify this line to match your actual installation directory
+RewriteBase /cics-repository/
+
+# Handle requests for dashboard.php
+RewriteRule ^dashboard/?$ app/views/dashboard.php [L]
+
+# Handle admin dashboard
+RewriteRule ^admin/dashboard/?$ admin/dashboard.php [L]
+
+# Prevent direct access to include files
+<FilesMatch "^(config|includes)">
+    Order deny,allow
+    Deny from all
+</FilesMatch>
+
+# PHP error handling
+php_flag display_errors On
+php_value error_reporting E_ALL
+
+# If you're having issues with file paths and URLs, 
+# uncomment and adjust these settings
+# SetEnv APPLICATION_ROOT /cics-repository
+# php_value include_path ".:/cics-repository/app"
